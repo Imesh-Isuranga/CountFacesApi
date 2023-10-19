@@ -10,7 +10,6 @@ This is a Spring Boot API for detecting the number of faces in uploaded images. 
 - [API Endpoints](#api-endpoints)
 - [Usage](#usage)
 - [Contributing](#contributing)
-- [License](#license)
 
 ## Features
 - Upload images for face detection.
