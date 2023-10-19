@@ -49,10 +49,7 @@ Build the project using Maven:
 mvn clean package -DskipTests
 ```
 
-Run the Spring Boot application:
-```
-java -jar target/FaceDetectApi-0.0.1-SNAPSHOT.jar
-```
+Run the Spring Boot application using your IDE
 
 Your API should now be up and running at http://localhost:8080.
 
