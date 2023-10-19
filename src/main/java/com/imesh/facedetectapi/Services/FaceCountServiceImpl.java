@@ -47,10 +47,34 @@ public class FaceCountServiceImpl implements FaceCountService {
         try {
             try {
                 System.out.println(resolvePythonScriptPath("GetFacesCount.py"));
+                System.out.println(resolvePythonScriptPath("assets"));
                 System.out.println(System.getProperty("user.dir"));
             }catch (Exception e){
                 System.out.println("Erorrrr  " + e);
             }
+
+
+
+
+
+            boolean isPythonInstalled = false;
+            try {
+                ProcessBuilder processBuilder = new ProcessBuilder("python", "--version");
+                Process process = processBuilder.start();
+                int exitCode = process.waitFor();
+                if (exitCode == 0) {
+                    isPythonInstalled = true;
+                }
+            } catch (IOException | InterruptedException e) {
+                // Python is not installed or an error occurred
+            }
+
+
+            System.out.println("---------------------------------------------------  " + isPythonInstalled);
+
+
+
+
             ProcessBuilder processBuilder = new ProcessBuilder("python",System.getProperty("user.dir")+File.separator+"GetFacesCount.py");
             Process process = processBuilder.start();
 
