@@ -19,7 +19,7 @@ public class FaceCountServiceImpl implements FaceCountService {
     String fileName = "1.jpg";
     @Override
     public String getFaceCountUsingOnlyPath(String imagePath) {
-        if(imagePath.contains("http")){
+      /*  if(imagePath.contains("http")){
             try(InputStream in = new URL(imagePath).openStream()){
                 Files.copy(in, Paths.get(resolvePythonScriptPath("assets")+File.separator+fileName));
                 return getFaceCount(resolvePythonScriptPath("assets")+File.separator+fileName);
@@ -28,7 +28,8 @@ public class FaceCountServiceImpl implements FaceCountService {
             }
         }else{
             return getFaceCount(imagePath);
-        }
+        }*/
+        return getFaceCount("11");
     }
 
     private String resolvePythonScriptPath(String path){
@@ -47,7 +48,7 @@ public class FaceCountServiceImpl implements FaceCountService {
 
 
             // Pass a string to the Python script
-            outputStream.write(path.getBytes());
+            outputStream.write("dfd".getBytes());
             outputStream.close();
 
             // Read the result from Python
@@ -55,7 +56,7 @@ public class FaceCountServiceImpl implements FaceCountService {
             faceCount = reader.readLine();
 
            // String currentDir = System.getProperty("user.dir");
-            Files.delete(Path.of(resolvePythonScriptPath("assets")+File.separator+fileName));
+           // Files.delete(Path.of(resolvePythonScriptPath("assets")+File.separator+fileName));
 
 
             // Wait for the Python process to complete
@@ -74,12 +75,12 @@ public class FaceCountServiceImpl implements FaceCountService {
     @Override
     public String getFaceCountUsingImage(MultipartFile image) throws IOException {
 
-        fileName = image.getOriginalFilename();
+    /*    fileName = image.getOriginalFilename();
         String path = (resolvePythonScriptPath("assets")+File.separator+fileName);
         File newImageFile = new File(path);
-        image.transferTo(newImageFile);
+        image.transferTo(newImageFile);*/
 
-        return getFaceCount(path);
+        return getFaceCount("path");
     }
 
 
