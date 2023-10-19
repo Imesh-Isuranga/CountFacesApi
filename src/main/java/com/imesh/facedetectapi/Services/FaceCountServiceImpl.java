@@ -1,6 +1,8 @@
 package com.imesh.facedetectapi.Services;
 
+import com.imesh.facedetectapi.config.FaceCountConfig;
 import jakarta.transaction.Transactional;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -15,6 +17,9 @@ import java.util.concurrent.TimeUnit;
 @Service
 @Transactional
 public class FaceCountServiceImpl implements FaceCountService {
+
+    @Autowired
+    FaceCountConfig faceCountConfig;
 
     String fileName = "1.jpg";
     @Override
@@ -40,7 +45,13 @@ public class FaceCountServiceImpl implements FaceCountService {
     private String getFaceCount(String path) {
         String faceCount = "0";
         try {
-            ProcessBuilder processBuilder = new ProcessBuilder("python",resolvePythonScriptPath("GetFacesCount.py"));
+            try {
+                System.out.println(resolvePythonScriptPath("GetFacesCount.py"));
+                System.out.println(System.getProperty("user.dir"));
+            }catch (Exception e){
+                System.out.println("Erorrrr  " + e);
+            }
+            ProcessBuilder processBuilder = new ProcessBuilder("python",System.getProperty("user.dir")+File.separator+"GetFacesCount.py");
             Process process = processBuilder.start();
 
             // Get the output stream to write data to Python
