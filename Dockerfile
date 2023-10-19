@@ -1,10 +1,10 @@
-# Use a multi-stage build for Maven and Java
+# Use a multi-stage build for Maven
 FROM maven:3.8.5-openjdk-17 AS build
 COPY . .
 RUN mvn clean package -DskipTests
 
 # Start a new stage for the final image
-FROM openjdk:17.0.1-jdk-slim
+FROM debian:bullseye-slim
 
 # Install Python
 RUN apt-get update && apt-get install -y python3
