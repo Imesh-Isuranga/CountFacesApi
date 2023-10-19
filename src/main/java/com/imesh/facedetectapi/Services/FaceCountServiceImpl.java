@@ -1,8 +1,6 @@
 package com.imesh.facedetectapi.Services;
 
-import com.imesh.facedetectapi.config.FaceCountConfig;
 import jakarta.transaction.Transactional;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -18,13 +16,10 @@ import java.util.concurrent.TimeUnit;
 @Transactional
 public class FaceCountServiceImpl implements FaceCountService {
 
-    @Autowired
-    FaceCountConfig faceCountConfig;
-
     String fileName = "1.jpg";
     @Override
     public String getFaceCountUsingOnlyPath(String imagePath) {
-      /*  if(imagePath.contains("http")){
+        if(imagePath.contains("http")){
             try(InputStream in = new URL(imagePath).openStream()){
                 Files.copy(in, Paths.get(resolvePythonScriptPath("assets")+File.separator+fileName));
                 return getFaceCount(resolvePythonScriptPath("assets")+File.separator+fileName);
@@ -33,8 +28,7 @@ public class FaceCountServiceImpl implements FaceCountService {
             }
         }else{
             return getFaceCount(imagePath);
-        }*/
-        return getFaceCount("11");
+        }
     }
 
     private String resolvePythonScriptPath(String path){
@@ -45,37 +39,7 @@ public class FaceCountServiceImpl implements FaceCountService {
     private String getFaceCount(String path) {
         String faceCount = "0";
         try {
-            try {
-                System.out.println(resolvePythonScriptPath("GetFacesCount.py"));
-                System.out.println(resolvePythonScriptPath("assets"));
-                System.out.println(System.getProperty("user.dir"));
-            }catch (Exception e){
-                System.out.println("Erorrrr  " + e);
-            }
-
-
-
-
-
-            boolean isPythonInstalled = false;
-            try {
-                ProcessBuilder processBuilder = new ProcessBuilder("python", "--version");
-                Process process = processBuilder.start();
-                int exitCode = process.waitFor();
-                if (exitCode == 0) {
-                    isPythonInstalled = true;
-                }
-            } catch (IOException | InterruptedException e) {
-                // Python is not installed or an error occurred
-            }
-
-
-            System.out.println("---------------------------------------------------  " + isPythonInstalled);
-
-
-
-
-            ProcessBuilder processBuilder = new ProcessBuilder("python",System.getProperty("user.dir")+File.separator+"GetFacesCount.py");
+            ProcessBuilder processBuilder = new ProcessBuilder("python",resolvePythonScriptPath("GetFacesCount.py"));
             Process process = processBuilder.start();
 
             // Get the output stream to write data to Python
@@ -83,7 +47,7 @@ public class FaceCountServiceImpl implements FaceCountService {
 
 
             // Pass a string to the Python script
-            outputStream.write("dfd".getBytes());
+            outputStream.write(path.getBytes());
             outputStream.close();
 
             // Read the result from Python
@@ -91,7 +55,11 @@ public class FaceCountServiceImpl implements FaceCountService {
             faceCount = reader.readLine();
 
            // String currentDir = System.getProperty("user.dir");
-           // Files.delete(Path.of(resolvePythonScriptPath("assets")+File.separator+fileName));
+            try {
+                Files.delete(Path.of(resolvePythonScriptPath("assets")+File.separator+fileName));
+            }catch (Exception e){
+                System.out.println(e);
+            }
 
 
             // Wait for the Python process to complete
@@ -110,12 +78,12 @@ public class FaceCountServiceImpl implements FaceCountService {
     @Override
     public String getFaceCountUsingImage(MultipartFile image) throws IOException {
 
-    /*    fileName = image.getOriginalFilename();
+        fileName = image.getOriginalFilename();
         String path = (resolvePythonScriptPath("assets")+File.separator+fileName);
         File newImageFile = new File(path);
-        image.transferTo(newImageFile);*/
+        image.transferTo(newImageFile);
 
-        return getFaceCount("path");
+        return getFaceCount(path);
     }
 
 

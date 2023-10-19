@@ -20,4 +20,5 @@ def python_method(input_string):
 
 if __name__ == "__main__":
     input_string = sys.stdin.readline().strip()
-    print("imesh isuranga")
+    result = python_method(input_string)
+    print(result)
