@@ -49,7 +49,7 @@ Build the project using Maven:
 mvn clean package -DskipTests
 ```
 
-Run the Spring Boot application using your IDE
+Run the Spring Boot application using your IDE.
 
 Your API should now be up and running at http://localhost:8080.
 
@@ -60,14 +60,14 @@ Your API should now be up and running at http://localhost:8080.
 - URL: /api/v1/facedetect/get
 - HTTP Method: POST
 - Request Parameter: image (multipart file)
-- Response: The API will return a message indicating the number of - faces detected in the image.
+- Response: The API will return a message indicating the number of - faces detected in the image
 
 
 ### Upload an image for face detection (via image URL)
 - URL: /api/v1/facedetect/get
 - HTTP Method: GET
 - Request Parameter: imagePath (image URL)
-- Response: The API will return a message indicating the number of - faces detected in the image.
+- Response: The API will return a message indicating the number of - faces detected in the image
 
 Eg:-http://localhost:8080/api/v1/facedetect/get?imagePath={imagepath}
 
