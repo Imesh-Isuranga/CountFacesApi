@@ -21,8 +21,8 @@ public class FaceCountServiceImpl implements FaceCountService {
     public String getFaceCountUsingOnlyPath(String imagePath) {
         if(imagePath.contains("http")){
             try(InputStream in = new URL(imagePath).openStream()){
-                Files.copy(in, Paths.get(System.getProperty("user.dir") + File.separator + "assets/" + fileName));
-                return getFaceCount((System.getProperty("user.dir") + File.separator + "assets/" + fileName));
+                Files.copy(in, Paths.get(resolvePythonScriptPath("assets")+File.separator+fileName));
+                return getFaceCount(resolvePythonScriptPath("assets")+File.separator+fileName);
             } catch (IOException e) {
                 return e+"";
             }
@@ -54,8 +54,8 @@ public class FaceCountServiceImpl implements FaceCountService {
             BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
             faceCount = reader.readLine();
 
-            String currentDir = System.getProperty("user.dir");
-            Files.delete(Path.of(System.getProperty("user.dir") + File.separator + "assets/" + fileName));
+           // String currentDir = System.getProperty("user.dir");
+            Files.delete(Path.of(resolvePythonScriptPath("assets")+File.separator+fileName));
 
 
             // Wait for the Python process to complete
@@ -75,7 +75,7 @@ public class FaceCountServiceImpl implements FaceCountService {
     public String getFaceCountUsingImage(MultipartFile image) throws IOException {
 
         fileName = image.getOriginalFilename();
-        String path = (System.getProperty("user.dir") + File.separator + "assets/" + fileName);
+        String path = (resolvePythonScriptPath("assets")+File.separator+fileName);
         File newImageFile = new File(path);
         image.transferTo(newImageFile);
 
